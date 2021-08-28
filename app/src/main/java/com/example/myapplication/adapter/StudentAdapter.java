@@ -22,9 +22,18 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
     private ArrayList<Student> alStudent;
     private Context context;
 
-    public StudentAdapter(ArrayList<Student> alStudent, Context context) {
+    /**
+     * khai báo
+    */
+    private StudentAdapterListener onClickListener;
+
+    /**
+     * chỉnh sửa contructor
+     */
+    public StudentAdapter(ArrayList<Student> alStudent, Context context, StudentAdapterListener onClickListener) {
         this.alStudent = alStudent;
         this.context = context;
+        this.onClickListener = onClickListener;
     }
 
     @NonNull
@@ -48,10 +57,13 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
             }
         });
 
+        /**
+         * thay đổi
+         */
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                Toast.makeText(context, "Đang chọn item " + (holder.getAdapterPosition() + 1), Toast.LENGTH_SHORT).show();
+                onClickListener.click(v, position);
             }
         });
     }
@@ -87,5 +99,12 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
         public void setItemClickListener(ItemClickListener ic) {
             this.itemClickListener = ic;
         }
+    }
+
+    /**
+     * Tạo interface
+     */
+    public interface StudentAdapterListener {
+        void click(View v, int position);
     }
 }
